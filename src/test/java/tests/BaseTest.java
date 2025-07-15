@@ -2,6 +2,7 @@ package tests;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -12,16 +13,15 @@ public class BaseTest {
     protected WebDriver driver;
     private String browser;
 
-    // Constructor implicit: ia browserul din config.properties
     public BaseTest() {
         this.browser = utils.ConfigReader.getBrowser();
     }
 
-    // Constructor cu browser explicit (pentru parametrizare)
     public BaseTest(String browser) {
         this.browser = browser;
     }
 
+    @BeforeEach
     public void setUp() {
         switch (browser.toLowerCase()) {
             case "chrome":
@@ -40,6 +40,7 @@ public class BaseTest {
         driver.get(utils.ConfigReader.getBaseUrl());
     }
 
+    @AfterEach
     public void tearDown() {
         if (driver != null) {
             driver.quit();
