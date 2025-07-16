@@ -13,10 +13,12 @@ public class BaseTest {
     protected WebDriver driver;
     private String browser;
 
+    // Constructor implicit - ia browserul din config
     public BaseTest() {
         this.browser = utils.ConfigReader.getBrowser();
     }
 
+    // Constructor suprascris - permite specificarea browserului din test, dacă vrei
     public BaseTest(String browser) {
         this.browser = browser;
     }
@@ -35,6 +37,7 @@ public class BaseTest {
             default:
                 throw new RuntimeException("Browserul specificat nu este suportat: " + browser);
         }
+
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
         driver.get(utils.ConfigReader.getBaseUrl());
@@ -43,7 +46,7 @@ public class BaseTest {
     @AfterEach
     public void tearDown() {
         if (driver != null) {
-            driver.quit();
+            driver.quit(); // ✅ Închide complet browserul și WebDriver-ul
         }
     }
 }
